@@ -1,0 +1,53 @@
+-*- mode: org; mode: visual-line; -*-
+#+STARTUP: indent
+
+* =khyal-site=
+
+** Setup
+
+Sources for [[https://khyalgeometries.com]]. (Based on ~gaynor-spiral~, q.v.)
+
+Heroku setup:
+
+#+BEGIN_SRC shell-script
+  heroku login
+  heroku create khyal-site
+  heroku git:remote -a khyal-site
+#+END_SRC
+
+** DNS
+
+Custom domain: add =khyalgeometries.com= as a =CNAME= to the Heroku app name (not using =A=). First:
+
+#+BEGIN_SRC shell-script
+  heroku domains:add khyalgeometries.com
+#+END_SRC
+
+Then do a =heroku domains= to get the name to use in the alias.
+
+** Configuration and Installation
+
+Heroku environment variables needed: ~ON_HEROKU~ (set to anything, such as =YES=).
+
+Python environment setup:
+
+#+BEGIN_SRC shell-script
+  pipenv --python python3 install
+#+END_SRC
+
+Python dependencies:
+
+#+BEGIN_SRC shell-script
+  pipenv install flask
+  pipenv install gunicorn
+  pipenv install eventlet
+  pipenv install requests
+#+END_SRC
+
+Local run using:
+
+#+BEGIN_SRC shell-script
+  pipenv run python main.py
+#+END_SRC
+
+Deployment: don't forget the =Procfile=!
